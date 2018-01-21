@@ -23,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/userTimeline', function()
 {
-	return Twitter::getUserTimeline(['screen_name' => 'thujohn', 'count' => 20, 'format' => 'json']);
+	return Twitter::getUserTimeline(['screen_name' => 'DuyNguy74518863', 'count' => 20, 'format' => 'json']);
 });
 
 Route::get('/homeTimeline', function()
@@ -38,7 +38,7 @@ Route::get('/mentionsTimeline', function()
 
 Route::get('/tweet', function()
 {
-	return Twitter::postTweet(['status' => 'Laravel is beautiful', 'format' => 'json']);
+	return Twitter::postTweet(['status' => 'Tulip is a beautiful flower', 'format' => 'json']);
 });
 
 Route::get('/tweetMedia', function()

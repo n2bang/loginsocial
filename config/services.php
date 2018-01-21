@@ -36,9 +36,8 @@ return [
     ],
 
     'twitter' => [
-        'client_id' => '934659583053676544-pQvfqjG8uh3U0dNoi6hes9Xue0ETOND',
-        'client_secret' => 'K2BGaUasLWzJKAdmE9aGbLkQlIYnkhtkiY3Yzpn1a2pHR',
+        'client_id' => 'Oe15hwSXk13vpRbQdqSHFm1Wl',
+        'client_secret' => 'TAmC645jJ1h6Shx7HlCMbo0kvUgfjN8gq6jvNSICfaYJeepDmO',
         'redirect' => 'http://localhost:8000/callback',
     ],
 ];
-
