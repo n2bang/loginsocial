@@ -36,8 +36,20 @@ return [
     ],
 
     'twitter' => [
-        'client_id' => 'Oe15hwSXk13vpRbQdqSHFm1Wl',
-        'client_secret' => 'TAmC645jJ1h6Shx7HlCMbo0kvUgfjN8gq6jvNSICfaYJeepDmO',
-        'redirect' => 'http://localhost:8000/callback',
+        'client_id' => env('TWITTER_CONSUMER_KEY'),
+        'client_secret' => env('TWITTER_CONSUMER_SECRET'),
+        'redirect' => env('TWITTER_REDIRECT'),
+    ],
+
+    'google' => [ 
+        'client_id' => env ('GOOGLE_CLIENT_ID'),
+        'client_secret' => env ('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env ('GOOGLE_REDIRECT') 
+    ],
+
+    'facebook' => [ 
+        'client_id' => env ('FB_CLIENT_ID'),
+        'client_secret' => env ('FB_CLIENT_SECRET'),
+        'redirect' => env ('FB_REDIRECT') 
     ],
 ];

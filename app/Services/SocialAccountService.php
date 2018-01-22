@@ -1,22 +1,25 @@
 <?php
 
 namespace App\Services;
-use App\SocialTwitterAccount;
+use App\SocialAccount;
 use App\User;
-use Laravel\Socialite\Contracts\User as ProviderUser;
-class SocialTwitterAccountService
+use Laravel\Socialite\Contracts\Provider;
+
+class SocialAccountService
 {
-    public function createOrGetUser(ProviderUser $providerUser)
+    public function createOrGetUser(Provider $provider)
     {
-        $account = SocialTwitterAccount::whereProvider('twitter')
+        $providerUser = $provider->user();
+        $providerName = class_basename($provider); 
+        $account = SocialAccount::whereProvider($providerName)
             ->whereProviderUserId($providerUser->getId())
             ->first();
         if ($account) {
             return $account->user;
         } else {
-            $account = new SocialTwitterAccount([
+            $account = new SocialAccount([
                 'provider_user_id' => $providerUser->getId(),
-                'provider' => 'twitter'
+                'provider' => $providerName
             ]);
             $user = User::whereEmail($providerUser->getEmail())->first();
             if (!$user) {
