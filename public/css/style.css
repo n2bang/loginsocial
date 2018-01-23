@@ -2,6 +2,7 @@
     box-sizing: border-box;
     outline: none;
 }
+.error { color: red; }
 img {border: 0;}
 .avatar {width: 48px;height: 48px;border-radius: 50%;-moz-force-broken-image-icon: 1;}
 .stream-items {margin: 0; padding: 0;}

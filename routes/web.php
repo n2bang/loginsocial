@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/redirect/{provider}', 'SocialAuthController@redirect');
 Route::get('/callback/{provider}', 'SocialAuthController@callback');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/tweet', 'HomeController@tweet')->name('tweet');
 
 Route::get('/userTimeline', function()
 {
@@ -36,9 +37,14 @@ Route::get('/mentionsTimeline', function()
 	return Twitter::getMentionsTimeline(['count' => 20, 'format' => 'json']);
 });
 
-Route::get('/tweet', function()
-{
-	return Twitter::postTweet(['status' => 'Tulip is a beautiful flower', 'format' => 'json']);
+// Route::get('/tweet', function()
+// {
+// 	return Twitter::postTweet(['status' => 'Tulip is a beautiful flower', 'format' => 'json']);
+// });
+
+Route::get('/retweet/{id}', function($id)
+{	
+	return Twitter::postRt($id);//, ['format' => 'json']
 });
 
 Route::get('/tweetMedia', function()
