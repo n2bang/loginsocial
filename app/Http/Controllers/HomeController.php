@@ -33,9 +33,9 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
+     * A new tweet use api.
+     * @method post
+     * @param $request
      */
     public function tweet(Request $request)
     {
@@ -48,21 +48,24 @@ class HomeController extends Controller
         }
 
         $newTwitte = ['status' => $request->tweet];
+        
+        /*upload file*/
+        // $file = $request->file('image');
+        // $fileName = $file->getClientOriginalName();
+        // $upload_dir      = 'images';
+        // $fileName = \Carbon\Carbon::now()->timestamp . '_' . str_random(10) . '_' . $fileName;
+        // $file->move($upload_dir, $fileName);
 
-        //public_path();
-        $file = $request->file('image');
-        $fileName = $file->getClientOriginalName();
-        $upload_dir      = 'images';
-        $finalPath = \Carbon\Carbon::now()->timestamp . '_' . str_random(10) . '_' . $fileName;
-        $file->move($upload_dir, $finalPath);
+        /*single image*/
+        // $uploaded_media = Twitter::uploadMedia(['media' => File::get($request->file('image'))]);
+        // $newTwitte['media_ids'][$uploaded_media->media_id_string] = $uploaded_media->media_id_string;
 
-
-        if (!empty($request->media)) {
-            foreach ($request->media as $key => $value) {
-                var_dump($value->getRealPath());die;
-                $uploaded_media = Twitter::uploadMedia(['media' => File::get($value->getrealpath())]);
+        /*multiple image*/
+        if (!empty($request->images)) {
+            foreach ($request->images as $key => $value) {
+                $uploaded_media = Twitter::uploadMedia(['media' => File::get($value)]);
                 if (!empty($uploaded_media)) {
-                    $newTwitte['media_ids'][$uploaded_media->media_ids_string] = $uploaded_media->media_ids_string;
+                    $newTwitte['media_ids'][$uploaded_media->media_id_string] = $uploaded_media->media_id_string;
                 }
             }
         }

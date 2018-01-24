@@ -14,7 +14,7 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <input type="file" class="form-control" name="image" accept="image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/x-m4v">
+                        <input type="file" class="form-control" name="images[]" multiple="" accept="image/gif,image/jpeg,image/jpg,image/png,video/mp4,video/x-m4v">
                     </div>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <button type="submit" class="btn btn-default">Tweet</button>
