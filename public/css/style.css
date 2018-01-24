@@ -20,3 +20,5 @@ img {border: 0;}
 .stream-items li .stream-item-header .user {color:#657786;}
 .stream-items li .stream-item-content {display:flex;}
 .stream-items li .stream-item-footer {display:table;width:100%; padding-left: 58px;}
+.retweet i { color: #ddd; }
+.retweet.in i { color: #17bf63; }

@@ -72,4 +72,38 @@ class HomeController extends Controller
         Twitter::postTweet($newTwitte);
         return back();
     }
+
+    /**
+     * A new retweet use api.
+     * @method post
+     * @param $request
+     */
+    public function retweet(Request $request)
+    {
+        $validator = validator()->make($request->input(), [
+            'id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        if ($request->status == 1) {
+            try {
+                Twitter::postUnRt($request->id);
+                echo 2;exit;
+            } catch (Exception $e) {
+                // echo 'Message: ' .$e->getMessage();
+                echo 0;exit;
+            }
+        } else {
+            try {
+                Twitter::postRt($request->id);
+                echo 1;exit;
+            } catch (Exception $e) {
+                // echo 'Message: ' .$e->getMessage();
+                echo 0;exit;
+            }
+        }
+    }
 }

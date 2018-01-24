@@ -32,14 +32,30 @@
                             console.log(jsonData[0]);
                             var html = '';
                             for (var i = 0; i < jsonData.length; i++) {
+                                var status_clss = jsonData[i].retweeted ? ' in' : '';
+                                var status_value = jsonData[i].retweeted ? 1 : 0;
                                 html += '<li><div class="content clearfix"><div class="stream-item-header">';
                                 html += '<a href=""><img class="avatar" src="'+ jsonData[i].user.profile_image_url +'">';
                                 html += '<span class="fullname">'+ jsonData[i].user.name +'</span><span class="user">&nbsp;@'+ jsonData[i].user.screen_name +'</span></a></div>';
                                 html += '<div class="stream-item-content">'+ jsonData[i].text +'</div>';
-                                html += '<div class="stream-item-footer"><div class="retweet"><a data-id="'+ jsonData[i].id +'" href="#" title="Retweet"><i class="glyphicon glyphicon-random"></i></a></div></div>';
+                                html += '<div class="stream-item-footer"><div><a class="retweet'+status_clss+'" data-id="'+ jsonData[i].id_str +'" data-status="'+status_value+'" href="#" title="Retweet"><i class="glyphicon glyphicon-random"></i></a></div></div>';
                                 html += '</div></li>';
                             }
                             $('.stream-items').html(html);
+                        });
+                        $(document).on('click', '.retweet', function(e){
+                            e.preventDefault();
+                            var t = $(this), id = t.data('id'), status = t.data('status');
+                            $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+                            $.post('/retweet', {id:id, status: status, _token: '{{ csrf_token() }}'}, function(num) {
+                                if (num == 1) {
+                                    t.addClass('in');
+                                    t.data('status', 1);
+                                } else if (num == 2)  {
+                                    t.data('status', 0);
+                                    t.removeClass('in');
+                                }
+                            });
                         });
                     });
                     </script>
