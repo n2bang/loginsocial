@@ -39,7 +39,8 @@ class HomeController extends Controller
         if (!empty($suggestions)) {
             $count_s = count($suggestions);
             $random_n = mt_rand(0, $count_s);
-            $slug = $suggestions[$random_n]->slug;
+            $suggestion = $suggestions[$random_n];
+            $slug = $suggestion->slug;
             $obj_follow_users = Twitter::getSuggesteds($slug);
             $follow_users = is_object($obj_follow_users) ? $obj_follow_users->users : array();
         }
