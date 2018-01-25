@@ -22,6 +22,7 @@ Route::get('/callback/{provider}', 'SocialAuthController@callback');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/tweet', 'HomeController@tweet')->name('tweet');
 Route::post('/retweet', 'HomeController@retweet')->name('retweet');
+Route::post('/follow', 'HomeController@follow')->name('follow');
 
 Route::get('/userTimeline', function()
 {
@@ -58,4 +59,29 @@ Route::get('/tweetMedia', function()
 {
     $uploaded_media = Twitter::uploadMedia(['media' => File::get(public_path('filename.jpg'))]);
     return Twitter::postTweet(['status' => 'Laravel is beautiful', 'media_ids' => $uploaded_media->media_id_string]);
+});
+
+Route::get('/getFollowersIds', function()
+{   
+    $params = ['screen_name' => 'DuyNguy74518863', 'count' => 100];
+    $followers = Twitter::getFollowersIds($params);
+    echo json_encode($followers);exit;
+});
+
+Route::get('/getSuggestions', function()
+{
+    $arr = Twitter::getSuggestions();
+    echo json_encode($arr);exit;
+});
+
+Route::get('/getSuggesteds/{slug}', function($slug)
+{
+    $arr = Twitter::getSuggesteds($slug);
+    echo json_encode($arr);exit;
+});
+
+Route::get('/getSuggestedsMembers/{slug}', function($slug)
+{
+    $arr = Twitter::getSuggestedsMembers($slug);
+    echo json_encode($arr);exit;
 });

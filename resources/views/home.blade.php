@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">Twitter API</div>
                 <form action="/tweet" method="post" style="padding: 10px" enctype="multipart/form-data">
@@ -29,7 +29,7 @@
                     $(document).ready(function(){
                         $.get('/homeTimeline', function(data){
                             var jsonData = JSON.parse(data);
-                            console.log(jsonData[0]);
+                            // console.log(jsonData[0]);
                             var html = '';
                             for (var i = 0; i < jsonData.length; i++) {
                                 var status_clss = jsonData[i].retweeted ? ' in' : '';
@@ -62,6 +62,45 @@
                 @endif
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-3">
+            <h3>Who to follow</h3>
+            @if (Auth::check())
+            <ul id="suggestion">
+            @if(count($follow_users) > 0)
+                @foreach ($follow_users as $item)
+                <li>
+                    <div class="user">
+                        <a href="#">
+                            <img src="{{$item->profile_image_url}}" class="avatar">
+                            <strong class="fullname">{{$item->name}}</strong>
+                            <span class="username">@ {{$item->screen_name}}</span>
+                        </a>
+                        <div class="user-actions">
+                            <button class="btn btn-default follow" data-ids="{{$item->id_str}}" data-username="{{$item->screen_name}}">Follow</button>
+                        </div>
+                    </div>
+                </li>
+                @endforeach
+            @endif
+            </ul>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    $('.follow').on('click', function(){
+                        var t = $(this), user_id = t.data('ids'),  screen_name = t.data('username');
+                        $.post('/follow', {user_id: user_id, screen_name: screen_name, _token: '{{ csrf_token() }}'}, function(num){
+                            if (num == 1) {
+                                t.addClass('in');
+                            }
+                            setTimeout(function(){
+                                t.parent().parent().parent().remove();
+                            }, 1000);
+                        });
+                    });
+                });
+            </script>
+            @endif
         </div>
     </div>
 </div>

@@ -22,3 +22,8 @@ img {border: 0;}
 .stream-items li .stream-item-footer {display:table;width:100%; padding-left: 58px;}
 .retweet i { color: #ddd; }
 .retweet.in i { color: #17bf63; }
+#suggestion {margin: 0; padding: 0;}
+#suggestion li {list-style: none; padding: 5px;}
+#suggestion li .user { padding-left: 58px;position: relative;min-height: 58px; }
+#suggestion li .user .avatar {position: absolute;top: unset;left: 0;}
+.follow.in {color: white; background: #1da1f2;}

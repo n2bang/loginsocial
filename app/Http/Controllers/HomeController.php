@@ -7,6 +7,7 @@ use Auth;
 use Twitter;
 use File;
 use Storage;
+use Session;
 
 class HomeController extends Controller
 {
@@ -27,9 +28,22 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // var_dump($tmp); die;
-        
-        return view('home');
+        $suggestions = $request->session()->get('suggestions') ? $request->session()->get('suggestions') : array();
+        if (empty($suggestions)) {
+            $suggestions = Twitter::getSuggestions();
+            $request->session()->put('suggestions', $suggestions);
+            $request->session()->save();
+        }
+        $suggestions = $request->session()->get('suggestions');
+        $follow_users = array();
+        if (!empty($suggestions)) {
+            $count_s = count($suggestions);
+            $random_n = mt_rand(0, $count_s);
+            $slug = $suggestions[$random_n]->slug;
+            $obj_follow_users = Twitter::getSuggesteds($slug);
+            $follow_users = is_object($obj_follow_users) ? $obj_follow_users->users : array();
+        }
+        return view('home', compact('follow_users'));
     }
 
     /**
@@ -104,6 +118,32 @@ class HomeController extends Controller
                 // echo 'Message: ' .$e->getMessage();
                 echo 0;exit;
             }
+        }
+    }
+
+    /**
+     * Follow and Unfollow.
+     * @method post
+     * @param $request
+     */
+    public function follow(Request $request)
+    {
+        $validator = validator()->make($request->input(), [
+            'screen_name' => 'required',
+            'user_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        $params = ['user_id' => $request->user_id, 'screen_name' => $request->screen_name];
+        try {
+            Twitter::postFollow($params);
+            echo 1;exit;
+        } catch (Exception $e) {
+            // echo 'Message: ' . $e->getMessage();
+            echo 0;exit;
         }
     }
 }
